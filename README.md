@@ -1,4 +1,5 @@
 # local-events
+Team 10
 
 # Important Git Commands
 - `git pull`: Get newest commit (update from repo)
