@@ -8,6 +8,7 @@ Team 10
 1. `git add .`: This adds all modified/new files
 2. `git commit -m "Commit message"`: Makes a commit with the message "Commit message"
 3. `git push`: Pushes (Adds) the commit to the repo
+    - If we decide to make certain branches, you can commit to one using `git push origin BRANCHNAME.`
 
 # Running frontend
 1. Open terminal, in visual studio code it is ctrl, shift and +, or:
