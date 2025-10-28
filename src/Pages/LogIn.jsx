@@ -1,20 +1,40 @@
- import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import NavBar from "../Componants/NavBar"
 import React, { useState } from 'react';
+import { supabase } from "../supaBaseClient";
+import { useNavigate } from "react-router-dom";
+import Home from '../Pages/Home.jsx';
+
+
 
 
 const LogIn = () => {  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
 
-  const handleLogIn = (e) => {
-    e.preventDefault();
-    
-    console.log('Login button clicked!');
-    console.log('Logging in with', { email, password });
 
-    // Later: Login authentication logic here
-    
-  };
+  const handleLogIn = async (e) => {
+  e.preventDefault();
+
+  setMessage("Logging in..."); // optional feedback
+  console.log("Login button clicked!", { email, password });
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    console.error("Login error:", error);
+    setMessage(`❌ ${error.message}`);
+  } else {
+    console.log("Login success:", data);
+    setMessage("✅ Successfully logged in!");
+    navigate("/"); // Redirect to home page
+  }
+};
+
 
 
   return (
