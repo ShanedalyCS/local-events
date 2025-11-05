@@ -9,13 +9,14 @@ import { Link } from 'react-router-dom';
 
 export default function NavBar(){
     return(
-        <nav>
+        <nav className='navbar'>
             <h2>Local Events</h2>
             <Link to = "/">Home</Link>
             <Link to = "/about">Account</Link>
-            <Link to = "/login">LogIn</Link>
+            <Link to = "/login">Login</Link>
             <Link to = "/post">Post</Link>
             <Link to = "/register">Register</Link>
+             <Link to = "/events">Events</Link>
         </nav>
     )
 }
