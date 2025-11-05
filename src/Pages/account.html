@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Account | Local Events</title>
+  <style>
+    /* === General Page Styling === */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+    }
+
+    /* === Red Top Header Section === */
+    header {
+      background-color: #d32f2f; /* Red background */
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    /* === Navigation Links === */
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* === Main Account Section === */
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* === Profile Info Row === */
+    .profile-info {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+    }
+
+    /* === Profile Picture Placeholder === */
+    .profile-pic {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 3px solid #d32f2f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d32f2f;
+      font-weight: bold;
+      text-align: center;
+      background-color: #fff;
+      overflow: hidden;
+    }
+
+    /* === Optional Profile Image Styling === */
+    .profile-pic img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* === Profile Text Details === */
+    .profile-details h2 {
+      margin: 0;
+    }
+
+    .profile-details p {
+      margin: 5px 0;
+    }
+
+    /* === User Bio === */
+    .bio {
+      margin-top: 10px;
+      color: #555;
+      font-size: 0.95em;
+    }
+
+    /* === Account Action Buttons === */
+    .account-actions {
+      margin: 20px 0;
+    }
+
+    .account-actions button {
+      background-color: #d32f2f;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .account-actions button:hover {
+      background-color: #b71c1c;
+    }
+
+    /* === Subsections (Saved Events, Settings) === */
+    .section {
+      margin-top: 25px;
+    }
+
+    .section h3 {
+      border-left: 5px solid #d32f2f;
+      padding-left: 10px;
+      color: #333;
+    }
+
+    /* === Saved Events List === */
+    .saved-events ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .saved-events li {
+      background: #fafafa;
+      border: 1px solid #eee;
+      padding: 10px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+    }
+
+    /* === Settings Section === */
+    .settings label {
+      display: block;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    /* === Footer === */
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #333;
+      color: #fff;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === Top Header and Navigation === -->
+  <header>
+    <h1>Local Events</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="account.html">My Account</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <!-- === Main Account Container === -->
+  <main>
+
+    <!-- === User Profile Info === -->
+    <section class="profile-info">
+      <div class="profile-pic">
+        <!-- Optional: Replace this text with an actual profile image -->
+        <!-- <img src="your-photo.jpg" alt="Profile Picture"> -->
+        Profile<br>Picture
+      </div>
+
+      <div class="profile-details">
+        <h2>John Doe</h2>
+        <p>Email: johndoe@example.com</p>
+        <p>Member since: January 2024</p>
+        <p class="bio">
+          Hi! I’m John, an event enthusiast who loves discovering local festivals, markets, and community gatherings.
+        </p>
+      </div>
+    </section>
+
+    <!-- === Action Buttons (Profile / Events / Logout) === -->
+    <section class="account-actions">
+      <button>Edit Profile</button>
+      <button>View My Events</button>
+      <button>Log Out</button>
+    </section>
+
+    <!-- === Saved Events Section === -->
+    <section class="section saved-events">
+      <h3>Saved Events</h3>
+      <ul>
+        <li>🎵 Summer Music Fest — July 15, 2025</li>
+        <li>🛍️ Farmers Market — Every Sunday</li>
+        <li>🎨 Art in the Park — August 2, 2025</li>
+      </ul>
+    </section>
+
+    <!-- === Account Settings Section === -->
+    <section class="section settings">
+      <h3>Account Settings</h3>
+      <label>
+        <input type="checkbox" checked>
+        Receive email updates about upcoming events
+      </label>
+      <label>
+        <input type="checkbox">
+        Make my profile visible to event organizers
+      </label>
+    </section>
+
+  </main>
+
+  <!-- === Footer === -->
+  <footer>
+    &copy; 2025 Local Events | All rights reserved
+  </footer>
+
+</body>
+</html>
