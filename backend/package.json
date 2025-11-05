@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type":"module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --env-file=.env server.js",
+    "start": "node --env-file=.env server.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +16,7 @@
     "@supabase/supabase-js": "^2.76.1",
     "axios": "^1.12.2",
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "supabase": "^2.53.6"
   }
