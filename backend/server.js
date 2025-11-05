@@ -1,24 +1,23 @@
-//import libraries needed
+// server.js
 import express from 'express';
-import axios from 'axios';
-import {supabase} from './supabaseClient.js';
+import cors from 'cors';
 import 'dotenv/config';
 
 import eventsRouter from './routes/events.js';
-
-import cors from "cors";
+import usersRouter from './routes/userRoute.js';
 
 const app = express();
-const port = 3000; 
-//common port, if there are issues, mention it on teams and it will be changed 
+const port = process.env.PORT || 3000;
 
-app.use('/events', eventsRouter);   // ← mounts GET /events
+app.use(cors());
+app.use(express.json());
+
+// Mount routers
+app.use('/events', eventsRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (_, res) => res.send('Local Events API'));
 
-app.use(express.json());
-app.use(cors());
-
 app.listen(port, () => {
-    console.log(`Local Events backend is running on port ${port}`);
-})
+  console.log(`Local Events backend is running on port ${port}`);
+});

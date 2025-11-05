@@ -12,3 +12,16 @@ export async function list(req, res) {
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
 }
+
+
+export async function listID(req, res){
+    const {id} = req.params;
+    const {data, error} = await supabase 
+        .from(TABLE)
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if(error ) return res.status(404).json("ERROR 404");
+    res.json(data);
+}
