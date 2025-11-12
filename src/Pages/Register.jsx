@@ -68,12 +68,12 @@ const Register = () => {
 
   // Insert into profiles table
   if (user) {
-    const { error: profileError } = await supabase.from("profiles").insert([
+    const { error: profileError } = await supabase.from("testtable").insert([
       {
         id: user.id,       // match the auth user's id
         username: email,   // default username (can be changed later)
-        full_name: "",     // optional
-        bio: "",
+      
+    
       },
     ]);
 
@@ -97,29 +97,38 @@ setTimeout(() => {
   return (
     <div>
       <NavBar />
-      <h1>Welcome to the Register page</h1>
-      <form onSubmit={handleRegister}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
-      {message && <p>{message}</p>}
+
+      <div className="register-container">
+        <h1 className="register-title">Create Your Account</h1>
+
+        <form className="register-form" onSubmit={handleRegister}>
+          <input
+            type="email"
+            placeholder="Email address"
+            className="register-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            className="register-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <button type="submit" className="register-button">
+            Register
+          </button>
+        </form>
+
+        {message && <p className="register-message">{message}</p>}
+      </div>
     </div>
   );
 };
 
 export default Register;
-
- 
