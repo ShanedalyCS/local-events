@@ -38,30 +38,38 @@ const LogIn = () => {  const [email, setEmail] = useState('');
 
 
   return (
-    <div className="login-container">
-      <NavBar/>
-      <h2>Log In</h2>
-      <form onSubmit={handleLogIn}>
-        <div>
-          <label>Email:</label>
+    <div>
+      <NavBar />
+
+      <div className="login-container">
+        <h2 className="login-title">Log In</h2>
+
+        <form className="login-form" onSubmit={handleLogIn}>
           <input
             type="email"
+            placeholder="Email address"
+            className="login-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-        <div>
-          <label>Password:</label>
+
           <input
             type="password"
+            placeholder="Password"
+            className="login-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-        <button type="submit">Log In</button>
-      </form>
+
+          <button type="submit" className="login-button">
+            Log In
+          </button>
+        </form>
+
+        {message && <p className="login-message">{message}</p>}
+      </div>
     </div>
   );
 };
