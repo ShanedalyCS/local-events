@@ -12,7 +12,7 @@ import Account from './Pages/Account.jsx';
 import LogIn from './Pages/LogIn.jsx';
 import Post from './Pages/Post.jsx';
 import Register from './Pages/Register.jsx';
-
+import Events from './Pages/Events.jsx';
 
 
 function App() {
@@ -23,9 +23,10 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home/>} />
-          <Route path="/about" element={<Account />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/post" element={<Post />} />
+           <Route path="/events" element={<Events/>} />
           <Route path="/register" element={<Register />} />
         </Routes>
       </BrowserRouter>  
