@@ -1,22 +1,32 @@
-import React from 'react';
-import Account from '../Pages/Account.jsx';
-import Home from '../Pages/Home.jsx';
-import LogIn from '../Pages/LogIn.jsx';
-import Post from '../Pages/Post.jsx';
-import Register from '../Pages/Register.jsx';
-import { Link } from 'react-router-dom';
+// src/Componants/NavBar.jsx
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
+export default function NavBar() {
+  const [search, setSearch] = useState("");
 
-export default function NavBar(){
-    return(
-        <nav className='navbar'>
-            <h2>Local Events</h2>
-            <Link to = "/">Home</Link>
-            <Link to = "/account">Account</Link>
-            <Link to = "/login">Login</Link>
-            <Link to = "/post">Post</Link>
-            <Link to = "/register">Register</Link>
-             <Link to = "/events">Events</Link>
-        </nav>
-    )
+  return (
+    <nav className="navbar">
+      <div className="navbar-left">
+        <h2 className="navbar-logo">Local Events</h2>
+        <Link to="/">Home</Link>
+        <Link to="/events">Events</Link>
+        <Link to="/post">Post</Link>
+      </div>
+
+      <div className="navbar-center">
+        <input
+          type="text"
+          placeholder="Search..."
+          className="navbar-search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+
+      <div className="navbar-right">
+        <Link to="/account">Account</Link>
+      </div>
+    </nav>
+  );
 }
