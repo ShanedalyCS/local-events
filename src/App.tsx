@@ -24,10 +24,11 @@ function App() {
         <Routes>
           <Route path="/" element={isLoggedIn ? <Home /> : <Navigate to="/login" />} />
           <Route path="/about" element={<Account />} />
-          <Route path="/login" element={<LogIn />} />
+          <Route path="/login" element={<LogIn setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/post" element={<Post />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+
       </BrowserRouter>  
     
     </>
