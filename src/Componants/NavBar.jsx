@@ -12,7 +12,7 @@ export default function NavBar(){
         <nav className='navbar'>
             <h2>Local Events</h2>
             <Link to = "/">Home</Link>
-            <Link to = "/about">Account</Link>
+            <Link to = "/account">Account</Link>
             <Link to = "/login">Login</Link>
             <Link to = "/post">Post</Link>
             <Link to = "/register">Register</Link>
