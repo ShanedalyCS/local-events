@@ -8,10 +8,7 @@ import NavBar from "../Componants/NavBar"
 
 export default function Account(){
     return(
-		<div>
-				<NavBar/>
-				<h1>Account Page</h1>
-				<p> Account Page.</p>
-				</div>
-    )
+        <>
+        </>
+    );
 }

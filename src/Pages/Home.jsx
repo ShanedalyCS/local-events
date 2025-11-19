@@ -1,19 +1,23 @@
-import React from 'react';
-import Account from '../Pages/Account.jsx';
-import LogIn from '../Pages/LogIn.jsx';
-import Post from '../Pages/Post.jsx';
-import Register from '../Pages/Register.jsx';
-import { Link } from 'react-router-dom';
+import "react";
 
-import NavBar from "../Componants/NavBar"
+import EventCard from "../Componants/EventCard.jsx";
+import sampleEvents from "../data/sampleEvents.js";
 
+export default function Home() {
+  return (
+    <div className="home-container">
+      <h1>Events</h1>
 
-export default function Home(){
-    return(
-        <div>
-            <NavBar/>
-            <h1>Welcome to the Home Page</h1>
-            <p>This is the main landing page of the application.</p>
-        </div>
-    )
+      <div className="event-list">
+        {sampleEvents.map(event => (
+          <EventCard
+            key={event.id}
+            title={event.title}
+            description={event.description}
+            date={event.date}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }

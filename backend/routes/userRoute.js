@@ -1,9 +1,8 @@
-//import required libraries
-const express = require('express');
-const router = express.Router();
+// routes/users.js
+import { Router } from 'express';
+import { users } from '../controller/userController.js';
 
-const userController = require("../controller/userController.js"); //import user controller
+const router = Router();
+router.get('/users', users); // GET /users
 
-
-
-module.exports = router;
+export default router;
