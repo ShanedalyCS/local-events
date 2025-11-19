@@ -1,5 +1,5 @@
 import React, {useStae} from 'react';
-import { useNavigate } from "react-router-dom"; // Used to navigate after registration
+import { useNavigate } from "react-router-dom"; 
 import { supabase } from '../supaBaseClient.jsx';
 import Account from '../Pages/Account.jsx';
 import Home from '../Pages/Home.jsx';
@@ -71,7 +71,7 @@ const Register = () => {
     const { error: profileError } = await supabase.from("testtable").insert([
       {
         id: user.id,       // match the auth user's id
-        username: email,   // default username (can be changed later)
+        username: email,   // default username
       
     
       },
@@ -94,12 +94,11 @@ setTimeout(() => {
  
   
 
-  return (
-    <div>
-      <NavBar />
-
-      <div className="register-container">
+   return (
+    <div className="register-page">
+      <div className="register-card">
         <h1 className="register-title">Create Your Account</h1>
+        <p className="register-subtitle">Sign up to get started</p>
 
         <form className="register-form" onSubmit={handleRegister}>
           <input
@@ -110,7 +109,6 @@ setTimeout(() => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-
           <input
             type="password"
             placeholder="Password"
@@ -119,13 +117,19 @@ setTimeout(() => {
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-
           <button type="submit" className="register-button">
             Register
           </button>
         </form>
 
         {message && <p className="register-message">{message}</p>}
+
+        <p className="register-footer">
+          Already have an account?{" "}
+          <a href="/login" className="register-link">
+            Log In
+          </a>
+        </p>
       </div>
     </div>
   );
