@@ -309,26 +309,37 @@ background: linear-gradient(90deg, rgba(255, 36, 39, 1) 0%, rgba(255, 48, 138, 1
 
 
 
+/* EVENT LAYOUT */
+.event-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto 10px;
+}
+
 /* EVENT CARD CONTAINER */
 .event-card {
-  display: flex;
-background: #b8b8b8;
-background: linear-gradient(90deg, rgba(184, 184, 184, 1) 16%, rgba(255, 255, 255, 1) 50%, rgba(230, 230, 230, 1) 100%);  border-radius: 12px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  column-gap: 20px;
+  background: linear-gradient(90deg, rgba(184, 184, 184, 1) 12%, rgba(255, 255, 255, 1) 60%, rgba(230, 230, 230, 1) 100%);
+  border-radius: 12px;
   width: 100%;
-  max-width: 850px;
-  margin: 25px auto;
-  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
-
-  height: 160px;      /* fixed height */
+  margin: 0 auto;
+  box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.08);
+  min-height: 220px;
+  padding: 16px;
   overflow: hidden;   /* clip contents to rounded corners */
+  box-sizing: border-box;
 }
 
 /* LEFT IMAGE: FULL HEIGHT & WIDTH OF COLUMN */
 .event-card-image {
-  width: 250px;
+  width: 100%;
   height: 100%;
-  flex-shrink: 0;
-
+  min-height: 220px;
   background-image: url("./assets/group1.png");
   background-size: cover;
   background-position: center;
@@ -337,22 +348,24 @@ background: linear-gradient(90deg, rgba(184, 184, 184, 1) 16%, rgba(255, 255, 25
 
 /* RIGHT CONTENT AREA */
 .event-card-body {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;  /* vertically center text + button */
-  align-items: center;      /* horizontally center button */
-  padding: 20px 20px 20px 25px;
+  align-items: flex-start;      /* horizontally align left */
+  padding: 12px 4px 12px 0;
+  text-align: left;
+  row-gap: 8px;
 }
 
 /* TITLE + DATE IN SAME ROW */
 .event-card-header {
   display: flex;
-  justify-content: center;   /* center the whole header row */
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;                 /* <— add spacing between title + date */
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 8px;
   color: black;
+  flex-wrap: wrap;
 }
 
 
@@ -373,7 +386,8 @@ background: linear-gradient(90deg, rgba(184, 184, 184, 1) 16%, rgba(255, 255, 25
   margin: 0;
   font-size: 14px;
   color: #4d4d4d;
-  max-width: 350px;
+  max-width: 100%;
+  line-height: 1.4;
 }
 
 /* READ MORE BUTTON */
@@ -391,4 +405,34 @@ background: linear-gradient(90deg, rgba(184, 184, 184, 1) 16%, rgba(255, 255, 25
 
 .read-more-btn:hover {
   background: #c5c5c5;
+}
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .event-list {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .event-card {
+    grid-template-columns: 1fr;
+  }
+
+  .event-card-image {
+    height: 200px;
+  }
+
+  .event-card-body {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .event-list {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  .event-card {
+    padding: 12px;
+  }
 }

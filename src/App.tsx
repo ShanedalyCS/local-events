@@ -12,6 +12,8 @@ import LogIn from "./Pages/LogIn.jsx";
 import Post from "./Pages/Post.jsx";
 import Register from "./Pages/Register.jsx";
 import Events from "./Pages/Events.jsx";
+import EventDetail from "./Pages/EventDetail.jsx";
+import Profile from "./Pages/Profile.jsx";
 
 function LayoutWithNav() {
   return (
@@ -27,7 +29,7 @@ function LayoutWithNav() {
 // layout for pages WITHOUT navbar (login/register)
 function LayoutNoNav() {
   return (
-    <main className="page-content">
+    <main className="auth-shell">
       <Outlet />
     </main>
   );
@@ -44,6 +46,8 @@ export default function App() {
         <Route element={<LayoutWithNav />}>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetail />} />
+          <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/post" element={<Post />} />
           <Route path="/account" element={<Account />} />
         </Route>

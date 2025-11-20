@@ -1,100 +1,54 @@
-import React, {useStae} from 'react';
-import { useNavigate } from "react-router-dom"; 
-import { supabase } from '../supaBaseClient.jsx';
-import Account from '../Pages/Account.jsx';
-import Home from '../Pages/Home.jsx';
-import LogIn from '../Pages/LogIn.jsx';
-import Post from '../Pages/Post.jsx';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { supabase } from "../supaBaseClient.jsx";
 
-import NavBar from "../Componants/NavBar"
-
-
-// Registration component
 const Register = () => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [message, setMessage] = React.useState('');
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
-   // Password validation function
-  const validatePassword = (password) => {
-    const minLength = /.{8,}/;
-    const hasUppercase = /[A-Z]/;
-    const hasLowercase = /[a-z]/;
-    const hasNumber = /[0-9]/;
-    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/;
-
-    if (!minLength.test(password)) return "Password must be at least 8 characters.";
-    if (!hasUppercase.test(password)) return "Password must have at least one uppercase letter.";
-    if (!hasLowercase.test(password)) return "Password must have at least one lowercase letter.";
-    if (!hasNumber.test(password)) return "Password must have at least one number.";
-    if (!hasSpecial.test(password)) return "Password must have at least one special character.";
-
-    return null; // Password is valid
-  };
-
-  // Handle registration form submission
   const handleRegister = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
+    setMessage("Creating your account...");
 
-  
-  setMessage("Creating your account...");
+    const { data: signupData, error: signupError } = await supabase.auth.signUp({
+      email,
+      password,
+    });
 
-  // Check password strength
-    /*const passwordError = validatePassword(password);
-    if (passwordError) {
-      setMessage(`❌ ${passwordError}`);
-      return;
-    }*/
-
-  // Create user in Supabase Auth
-  const { data: signupData, error: signupError } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-
-  
-  // Handle signup errors
-  if (signupError) {
-    console.error("Signup error:", signupError);
-    setMessage(`❌ ${signupError.message}`);
-    return;
-  }
-
-  // Signup successful. Profile creation.
-  const user = signupData.user;
-  console.log("✅ User created:", user);
-
-  // Insert into profiles table
-  if (user) {
-    const { error: profileError } = await supabase.from("testtable").insert([
-      {
-        id: user.id,       // match the auth user's id
-        username: email,   // default username
-      
-    
-      },
-    ]);
-
-    if (profileError) {
-      console.error("Profile insert error:", profileError);
-      setMessage(`⚠️ Account created but profile setup failed: ${profileError.message}`);
+    if (signupError) {
+      console.error("Signup error:", signupError);
+      setMessage(`Sign up failed: ${signupError.message}`);
       return;
     }
-  }
 
-  setMessage("✅ Account created! Redirecting to log in...");
+    const user = signupData.user;
 
-  // Wait 1 second so the user sees the message before redirecting
-setTimeout(() => {
-  navigate("/login");
-}, 1000);
-};
- 
-  
+    if (user) {
+      const { error: profileError } = await supabase.from("testtable").insert([
+        {
+          id: user.id,
+          username,
+        },
+      ]);
 
-   return (
+      if (profileError) {
+        console.error("Profile insert error:", profileError);
+        setMessage(`Account created but profile setup failed: ${profileError.message}`);
+        return;
+      }
+    }
+
+    setMessage("Account created! Redirecting to log in...");
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 1200);
+  };
+
+  return (
     <div className="register-page">
       <div className="register-card">
         <h1 className="register-title">Create Your Account</h1>
@@ -107,6 +61,14 @@ setTimeout(() => {
             className="register-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="text"
+            placeholder="Username (display name)"
+            className="register-input"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
           <input
@@ -126,9 +88,9 @@ setTimeout(() => {
 
         <p className="register-footer">
           Already have an account?{" "}
-          <a href="/login" className="register-link">
+          <Link to="/login" className="register-link">
             Log In
-          </a>
+          </Link>
         </p>
       </div>
     </div>

@@ -1,24 +1,17 @@
-import { Link } from 'react-router-dom';
-import NavBar from "../Componants/NavBar"
-import React, { useState } from 'react';
-import { supabase } from "../supaBaseClient";
-import { useNavigate } from "react-router-dom";
-import Home from '../Pages/Home.jsx';
-
-
-
+import React, { useState } from "react";
+import { supabase } from "../supaBaseClient.jsx";
+import { useNavigate, Link } from "react-router-dom";
 
 const LogIn = ({ setIsLoggedIn }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
 
   const handleLogIn = async (e) => {
     e.preventDefault();
 
-    setMessage("Logging in..."); 
-    console.log("Login button clicked!", { email, password }); // REMOVE PASSWORD AFTER TESTING
+    setMessage("Logging in...");
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
@@ -27,21 +20,17 @@ const LogIn = ({ setIsLoggedIn }) => {
 
     if (error) {
       console.error("Login error:", error);
-      setMessage(`❌ ${error.message}`);
+      setMessage(`Login failed: ${error.message}`);
     } else {
       console.log("Login success:", data);
-      setMessage("✅ Successfully logged in!");
+      setMessage("Successfully logged in!");
+      setIsLoggedIn(true);
 
-      // **Update login state**
-      setIsLoggedIn(true); // Overrides automatic login redirect
-
-      // Delay redirect so user can see the message
       setTimeout(() => {
-        navigate("/"); 
+        navigate("/");
       }, 1000);
     }
   };
-
 
   return (
     <div className="login-page">
@@ -75,14 +64,13 @@ const LogIn = ({ setIsLoggedIn }) => {
 
         <p className="login-footer">
           Don't have an account?{" "}
-          <a href="/register" className="login-link">
+          <Link to="/register" className="login-link">
             Sign Up
-          </a>
+          </Link>
         </p>
       </div>
     </div>
   );
 };
-
 
 export default LogIn;
