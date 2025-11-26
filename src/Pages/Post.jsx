@@ -126,12 +126,8 @@ export default function Post() {
           dateFormat="yyyy-MM-dd"
           minDate={startDate || undefined}
         />
-<<<<<<< HEAD
-        <button className="post-button" type="submit" disabled={loading}>
-=======
         <input type="file" accept="image/*" onChange={imageChange} />
         <button type="submit" disabled={loading}>
->>>>>>> a8275a6265ef07cddac4e87048b8093d1f618dab
           {loading ? "Adding..." : "Add Event"}
         </button>
       </form>

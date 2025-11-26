@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { supabase } from "../supaBaseClient.jsx";
 import { useNavigate, Link } from "react-router-dom";
 
-const LogIn = ({ setIsLoggedIn }) => {
+const LogIn = ({ setIsLoggedIn = () => {} }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();

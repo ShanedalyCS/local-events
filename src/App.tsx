@@ -42,7 +42,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-                 <Route path="/" element={<LogIn />} />
+        <Route path="/" element={<LogIn setIsLoggedIn={setIsLoggedIn} />} />
 
         {/* routes WITH navbar */}
         <Route element={<LayoutWithNav />}>
