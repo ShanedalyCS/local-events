@@ -107,7 +107,7 @@ export default function Post() {
           placeholder="Event Title"
           required
         />
-        <textarea
+        <input
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Event Description"
