@@ -9,7 +9,7 @@ export default function NavBar() {
     <nav className="navbar">
       <div className="navbar-left">
         <h2 className="navbar-logo">Local Events</h2>
-        <Link to="/">Home</Link>
+        <Link to="/home">Home</Link>
         <Link to="/events">Events</Link>
         <Link to="/post">Post</Link>
       </div>

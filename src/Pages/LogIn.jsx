@@ -27,7 +27,7 @@ const LogIn = ({ setIsLoggedIn }) => {
       setIsLoggedIn(true);
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/home");
       }, 1000);
     }
   };

@@ -91,7 +91,7 @@ export default function Post() {
           dateFormat="yyyy-MM-dd"
           minDate={startDate || undefined}
         />
-        <button type="submit" disabled={loading}>
+        <button className="post-button" type="submit" disabled={loading}>
           {loading ? "Adding..." : "Add Event"}
         </button>
       </form>

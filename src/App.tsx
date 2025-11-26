@@ -42,9 +42,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+                 <Route path="/" element={<LogIn />} />
+
         {/* routes WITH navbar */}
         <Route element={<LayoutWithNav />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/profile/:userId" element={<Profile />} />

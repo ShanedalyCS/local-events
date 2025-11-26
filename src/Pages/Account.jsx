@@ -8,6 +8,9 @@ export default function Account() {
   const [error, setError] = useState(null);
   const [events, setEvents] = useState([]);
   const [eventsLoading, setEventsLoading] = useState(false);
+  const [rsvpEvents, setRsvpEvents] = useState([]);
+  const [rsvpLoading, setRsvpLoading] = useState(false);
+  const [rsvpMessage, setRsvpMessage] = useState("");
   const [actionMessage, setActionMessage] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({
@@ -24,6 +27,7 @@ export default function Account() {
   useEffect(() => {
     if (user) {
       fetchActiveEvents();
+      fetchRsvpEvents();
     }
   }, [user]);
 
@@ -71,6 +75,41 @@ export default function Account() {
     setEventsLoading(false);
   }
 
+  async function fetchRsvpEvents() {
+    setRsvpLoading(true);
+    setRsvpMessage("");
+
+    const { data, error: rsvpError } = await supabase
+      .from("Rsvp")
+      .select("event_id")
+      .eq("user_id", user.id);
+
+    if (rsvpError) {
+      setRsvpMessage(rsvpError.message);
+      setRsvpEvents([]);
+      setRsvpLoading(false);
+      return;
+    }
+
+    const ids = Array.from(new Set((data || []).map((row) => row.event_id).filter(Boolean)));
+    if (!ids.length) {
+      setRsvpEvents([]);
+      setRsvpLoading(false);
+      return;
+    }
+
+    const { data: eventsData, error: eventsError } = await supabase.from("Event").select("*").in("id", ids);
+
+    if (eventsError) {
+      setRsvpMessage(eventsError.message);
+      setRsvpEvents([]);
+    } else {
+      setRsvpEvents(eventsData || []);
+    }
+
+    setRsvpLoading(false);
+  }
+
   function startEdit(event) {
     setEditingId(event.id);
     setEditForm({
@@ -106,6 +145,15 @@ export default function Account() {
     setActionMessage("Event updated.");
     setEditingId(null);
     fetchActiveEvents();
+  }
+
+  function formatDate(value) {
+    if (!value) return "";
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(new Date(value));
   }
 
   async function deleteEvent(id) {
@@ -249,6 +297,38 @@ export default function Account() {
           Note: Events are filtered by upcoming end date. If you want per-user scoping, add a user reference column
           (e.g., user_id) to the Event table and filter on it.
         </p>
+      </div>
+
+      <div className="manage-events">
+        <div className="manage-header">
+          <h3>Your RSVPs</h3>
+          <button className="account-button" onClick={fetchRsvpEvents} disabled={rsvpLoading}>
+            {rsvpLoading ? "Refreshing..." : "Refresh"}
+          </button>
+        </div>
+
+        {rsvpMessage && <p className="muted">{rsvpMessage}</p>}
+        {rsvpLoading && <p>Loading RSVPs...</p>}
+        {!rsvpLoading && rsvpEvents.length === 0 && <p>No RSVPs yet. RSVP from an event page to see it here.</p>}
+
+        <div className="manage-list">
+          {rsvpEvents.map((evt) => (
+            <div key={evt.id} className="manage-item">
+              <div className="manage-meta">
+                <h4>{evt.title}</h4>
+                <p className="muted">
+                  {formatDate(evt.date_start)} {evt.date_end ? `- ${formatDate(evt.date_end)}` : ""}
+                </p>
+                {evt.description && <p>{evt.description}</p>}
+              </div>
+              <div className="manage-actions">
+                <Link className="account-button" to={`/events/${evt.id}`}>
+                  View event
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
