@@ -340,7 +340,7 @@ background: linear-gradient(90deg, rgba(255, 36, 39, 1) 0%, rgba(255, 48, 138, 1
   width: 100%;
   height: 100%;
   min-height: 220px;
-  background-image: url("./assets/group1.png");
+/*   background-image: url("./assets/cat.jpg"); */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

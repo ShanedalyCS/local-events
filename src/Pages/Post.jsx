@@ -75,7 +75,7 @@ export default function Post() {
     };
 
     const { data: eventData, error: eventError } = await supabase
-      .from("Event_duplicate")
+      .from("Event")
       .insert(payload)
       .select()
       .single();

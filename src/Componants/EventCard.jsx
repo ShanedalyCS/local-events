@@ -13,12 +13,20 @@ function formatDateRange(start, end) {
   return format(start || end);
 }
 
-export default function EventCard({ id, title, description, dateStart, dateEnd, location, rsvpCount, posterName, posterId }) {
+import defaultImage from '../assets/group1.png'; //import default image
+
+
+export default function EventCard({ id, title, description, dateStart, dateEnd, location, rsvpCount, posterName, posterId, image}) {
   return (
     <div className="event-card">
-      {/* Left grey block */}
-      <div className="event-card-image" />
-
+      {/* Left image block */}
+      <div
+        className="event-card-image"
+        style={{
+          backgroundImage: `url(${image || defaultImage})`,
+        }}
+      />
+      
       {/* Right content */}
       <div className="event-card-body">
         <div className="event-card-header">
