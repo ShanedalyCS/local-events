@@ -95,6 +95,7 @@ export default function Events() {
             rsvpCount={item.rsvpCount}
             posterName={item.posterName}
             posterId={item.user_id}
+            image={item.image_url} 
           />
         ))}
       </div>
