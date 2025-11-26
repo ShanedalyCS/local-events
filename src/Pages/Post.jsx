@@ -10,6 +10,18 @@ export default function Post() {
   const [endDate, setEndDate] = React.useState(null);
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState("");
+  const [image, setImage] = React.useState(null);
+
+    const imageChange = (e) => {
+      const file = e.target.files[0];
+      if(file && file.type.startsWith("image/")){
+        setImage(file);
+      }  else {
+        alert ("Please choose a valid image file");
+        setImage(null);
+      }
+     };
+
 
   const addEvent = async (e) => {
     e.preventDefault();
@@ -30,9 +42,31 @@ export default function Post() {
       return;
     }
 
+
+
+     let imageUrl = null;
+
+     if(image){
+      const fileName = `${Date.now()}_${image.name}`;
+      const {data, error} = await supabase.storage
+      .from("images")
+      .upload(fileName, image);
+
+      if(error){
+        console.error("Image upload error: ", error);
+        setMessage("Failed to upload image.");
+        setLoading(false);
+        return;
+      }
+      const {data: {publicUrl}} = supabase.storage.from("images").getPublicUrl(fileName);
+      imageUrl = publicUrl;
+      console.log("Image URL: ", imageUrl);
+     }
+
     const toDateString = (date) => date.toISOString().slice(0, 10); // yyyy-mm-dd for Supabase date columns
 
     const payload = {
+      image_url: imageUrl, 
       date_start: toDateString(startDate),
       date_end: toDateString(endDate),
       title,
@@ -41,7 +75,7 @@ export default function Post() {
     };
 
     const { data: eventData, error: eventError } = await supabase
-      .from("Event")
+      .from("Event_duplicate")
       .insert(payload)
       .select()
       .single();
@@ -56,6 +90,7 @@ export default function Post() {
       setDescription("");
       setStartDate(null);
       setEndDate(null);
+      setImage(null);
     }
 
     setLoading(false);
@@ -91,6 +126,7 @@ export default function Post() {
           dateFormat="yyyy-MM-dd"
           minDate={startDate || undefined}
         />
+        <input type="file" accept="image/*" onChange={imageChange} />
         <button type="submit" disabled={loading}>
           {loading ? "Adding..." : "Add Event"}
         </button>
