@@ -1,9 +1,25 @@
 // src/Componants/NavBar.jsx
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation, useSearchParams } from "react-router-dom";
 
 export default function NavBar() {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const current = searchParams.get("search") || "";
+    setSearch(current);
+  }, [searchParams]);
+
+  function submitSearch(e) {
+    e.preventDefault();
+    const trimmed = search.trim();
+    const params = new URLSearchParams();
+    if (trimmed) params.set("search", trimmed);
+    navigate({ pathname: "/events", search: params.toString() });
+  }
 
   return (
     <nav className="navbar">
@@ -15,13 +31,15 @@ export default function NavBar() {
       </div>
 
       <div className="navbar-center">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="navbar-search"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <form onSubmit={submitSearch} className="navbar-search-form">
+          <input
+            type="text"
+            placeholder="Search events..."
+            className="navbar-search"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+        </form>
       </div>
 
       <div className="navbar-right">

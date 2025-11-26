@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import EventCard from "../Componants/EventCard.jsx";
 import { supabase } from "../supaBaseClient.jsx";
 
@@ -71,12 +72,21 @@ export default function Home() {
   }
 
   return (
-    <div className="home-container">
-      <h1>Upcoming Events</h1>
+    <div className="page-shell">
+      <div className="page-hero">
+        <p className="eyebrow">Featured</p>
+        <div className="page-hero__row">
+          <h1>Upcoming events</h1>
+          <Link className="ghost-btn" to="/events">
+            View all
+          </Link>
+        </div>
+        <p className="muted">Hand-picked highlights happening soon in your community.</p>
+      </div>
 
-      {loading && <p>Loading events...</p>}
-      {error && <p>Error loading events: {error}</p>}
-      {!loading && !error && events.length === 0 && <p>No events yet. Be the first to post!</p>}
+      {loading && <p className="muted">Loading events...</p>}
+      {error && <p className="muted">Error loading events: {error}</p>}
+      {!loading && !error && events.length === 0 && <p className="muted">No events yet. Be the first to post!</p>}
 
       <div className="event-list">
         {events.map((event) => (
@@ -91,6 +101,7 @@ export default function Home() {
             rsvpCount={event.rsvpCount}
             posterName={event.posterName}
             posterId={event.user_id}
+            image={event.image_url}
           />
         ))}
       </div>

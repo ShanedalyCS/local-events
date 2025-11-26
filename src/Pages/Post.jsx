@@ -11,16 +11,19 @@ export default function Post() {
   const [loading, setLoading] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [image, setImage] = React.useState(null);
+  const [preview, setPreview] = React.useState(null);
 
-    const imageChange = (e) => {
-      const file = e.target.files[0];
-      if(file && file.type.startsWith("image/")){
-        setImage(file);
-      }  else {
-        alert ("Please choose a valid image file");
-        setImage(null);
-      }
-     };
+  const imageChange = (e) => {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith("image/")) {
+      setImage(file);
+      setPreview(URL.createObjectURL(file));
+    } else {
+      alert("Please choose a valid image file");
+      setImage(null);
+      setPreview(null);
+    }
+  };
 
 
   const addEvent = async (e) => {
@@ -91,47 +94,88 @@ export default function Post() {
       setStartDate(null);
       setEndDate(null);
       setImage(null);
+      setPreview(null);
     }
 
     setLoading(false);
   };
 
   return (
-    <div className="event-add">
-      <h2>Create a new event</h2>
-      <form onSubmit={addEvent}>
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Event Title"
-          required
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Event Description"
-          required
-        />
-        <DatePicker
-          selected={startDate}
-          onChange={(date) => setStartDate(date)}
-          placeholderText="Select Start Date"
-          dateFormat="yyyy-MM-dd"
-        />
-        <DatePicker
-          selected={endDate}
-          onChange={(date) => setEndDate(date)}
-          placeholderText="Select End Date"
-          dateFormat="yyyy-MM-dd"
-          minDate={startDate || undefined}
-        />
-        <input type="file" accept="image/*" onChange={imageChange} />
-        <button type="submit" disabled={loading}>
-          {loading ? "Adding..." : "Add Event"}
-        </button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="post-page">
+      <div className="post-hero">
+        <p className="eyebrow">Create</p>
+        <h2>Share your next event</h2>
+        <p className="muted">
+          Add the essentials, upload a hero image, and your event will appear in the feed instantly.
+        </p>
+      </div>
+
+      <div className="post-shell">
+        <form className="post-form" onSubmit={addEvent}>
+          <div className="post-field">
+            <label>Event title</label>
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. Community meetup at the park"
+              required
+            />
+          </div>
+
+          <div className="post-field">
+            <label>Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="What should people expect?"
+              rows={5}
+              required
+            />
+          </div>
+
+          <div className="post-row">
+            <div className="post-field">
+              <label>Start date</label>
+              <DatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                placeholderText="Select start date"
+                dateFormat="yyyy-MM-dd"
+                className="date-input"
+              />
+            </div>
+            <div className="post-field">
+              <label>End date</label>
+              <DatePicker
+                selected={endDate}
+                onChange={(date) => setEndDate(date)}
+                placeholderText="Select end date"
+                dateFormat="yyyy-MM-dd"
+                minDate={startDate || undefined}
+                className="date-input"
+              />
+            </div>
+          </div>
+
+          <div className="post-field">
+            <label>Display image</label>
+            <div className="upload-tile">
+              <div className="upload-copy">
+                <p className="upload-title">Drop or browse</p>
+                <p className="muted">JPG, PNG — keep it under 5MB.</p>
+              </div>
+              <input type="file" accept="image/*" onChange={imageChange} />
+            </div>
+            {preview && <img className="upload-preview" src={preview} alt="Event preview" />}
+          </div>
+
+          <button className="primary-btn" type="submit" disabled={loading}>
+            {loading ? "Adding..." : "Publish event"}
+          </button>
+          {message && <p className="muted status-message">{message}</p>}
+        </form>
+      </div>
     </div>
   );
 }

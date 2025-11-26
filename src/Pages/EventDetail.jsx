@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "../supaBaseClient.jsx";
+import defaultImage from "../assets/group1.png";
 
 export default function EventDetail() {
   const { id } = useParams();
@@ -84,44 +85,53 @@ export default function EventDetail() {
     }).format(new Date(value));
   }
 
-  if (loading) return <div className="page-content"><p>Loading event...</p></div>;
-  if (error) return <div className="page-content"><p>Error: {error}</p></div>;
-  if (!event) return <div className="page-content"><p>Event not found.</p></div>;
+  if (loading) return <div className="page-shell"><p className="muted">Loading event...</p></div>;
+  if (error) return <div className="page-shell"><p className="muted">Error: {error}</p></div>;
+  if (!event) return <div className="page-shell"><p className="muted">Event not found.</p></div>;
 
   const dateRange = [formatDate(event.date_start), formatDate(event.date_end)].filter(Boolean).join(" - ");
   const contactHref = `mailto:?subject=${encodeURIComponent(event.title || "Event")}`;
 
   return (
-    <div className="page-content">
-      <div className="event-detail">
-        <div className="event-detail__header">
-          <Link to="/events" className="back-link">← Back to events</Link>
-          <h1>{event.title}</h1>
-          {dateRange && <p className="muted">{dateRange}</p>}
-          <p className="muted">{rsvpCount} going</p>
+    <div className="page-shell">
+      <div className="page-hero event-detail-hero">
+        <div className="page-hero__row">
+          <p className="eyebrow">Event</p>
+          <Link to="/events" className="ghost-btn small">Back to events</Link>
+        </div>
+        <h1>{event.title}</h1>
+        {dateRange && <p className="muted">{dateRange}</p>}
+        <p className="muted">
+          {rsvpCount} going
           {poster && (
-            <p className="muted">
-              Posted by{" "}
+            <>
+              {" • "}Posted by{" "}
               <Link to={`/profile/${poster.id}`} className="account-link">
                 {poster.username}
               </Link>
-            </p>
+            </>
           )}
+        </p>
+      </div>
+
+      <div className="event-detail-card">
+        <div
+          className="event-detail-image"
+          style={{ backgroundImage: `url(${event.image_url || defaultImage})` }}
+        />
+        <div className="event-detail-body">
+          {event.description && <p className="event-detail__description">{event.description}</p>}
+
+          <div className="event-detail__actions">
+            <a className="primary-btn" href={contactHref}>
+              Get in contact
+            </a>
+            <button className="primary-btn secondary" onClick={handleRsvp}>
+              RSVP
+            </button>
+          </div>
+          {actionMessage && <p className="muted">{actionMessage}</p>}
         </div>
-
-        <div className="event-detail__image" />
-
-        {event.description && <p className="event-detail__description">{event.description}</p>}
-
-        <div className="event-detail__actions">
-          <a className="primary-btn" href={contactHref}>
-            Get in contact
-          </a>
-          <button className="primary-btn secondary" onClick={handleRsvp}>
-            RSVP
-          </button>
-        </div>
-        {actionMessage && <p className="muted">{actionMessage}</p>}
       </div>
     </div>
   );
