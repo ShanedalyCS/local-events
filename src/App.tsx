@@ -37,12 +37,13 @@ function LayoutNoNav() {
 
 export default function App() {
   // if you want to use this later for protecting routes
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [, setIsLoggedIn] = useState(false);
+  const markLoggedIn = () => setIsLoggedIn(true);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LogIn setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/" element={<LogIn setIsLoggedIn={markLoggedIn} />} />
 
         {/* routes WITH navbar */}
         <Route element={<LayoutWithNav />}>
@@ -56,7 +57,7 @@ export default function App() {
 
         {/* routes WITHOUT navbar */}
         <Route element={<LayoutNoNav />}>
-          <Route path="/login" element={<LogIn setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/login" element={<LogIn setIsLoggedIn={markLoggedIn} />} />
           <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
