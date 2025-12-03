@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { supabase } from "../supaBaseClient.jsx";
+import { supabase, isSupabaseConfigured } from "../supaBaseClient.jsx";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -47,6 +47,20 @@ const Register = () => {
       navigate("/login");
     }, 1200);
   };
+
+  if (!isSupabaseConfigured) {
+    return (
+      <div className="register-page">
+        <div className="register-card">
+          <h1 className="register-title">Configuration needed</h1>
+          <p className="register-subtitle">
+            Supabase environment variables are missing. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your Netlify site
+            environment and redeploy.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="register-page">
