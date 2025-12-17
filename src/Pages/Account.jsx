@@ -17,7 +17,9 @@ export default function Account() {
   const [profileLoading, setProfileLoading] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [currentPasswordInput, setCurrentPasswordInput] = useState("");
+  const [newPasswordInput, setNewPasswordInput] = useState("");
+  const [passwordLoading, setPasswordLoading] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({
@@ -121,18 +123,41 @@ export default function Account() {
   }
 
   async function updatePassword() {
-    if (!passwordInput || passwordInput.length < 6) {
-      setPasswordMessage("Password must be at least 6 characters.");
+    if (!currentPasswordInput) {
+      setPasswordMessage("Enter your current password.");
       return;
     }
+    if (!newPasswordInput || newPasswordInput.length < 6) {
+      setPasswordMessage("New password must be at least 6 characters.");
+      return;
+    }
+
+    setPasswordLoading(true);
+    setPasswordMessage("Verifying current password...");
+
+    const { error: verifyError } = await supabase.auth.signInWithPassword({
+      email: user.email,
+      password: currentPasswordInput,
+    });
+
+    if (verifyError) {
+      setPasswordMessage("Current password is incorrect.");
+      setPasswordLoading(false);
+      return;
+    }
+
     setPasswordMessage("Updating password...");
-    const { error } = await supabase.auth.updateUser({ password: passwordInput });
-    if (error) {
-      setPasswordMessage(error.message);
+    const { error: updateError } = await supabase.auth.updateUser({ password: newPasswordInput });
+    setPasswordLoading(false);
+
+    if (updateError) {
+      setPasswordMessage(updateError.message);
       return;
     }
+
     setPasswordMessage("Password updated.");
-    setPasswordInput("");
+    setCurrentPasswordInput("");
+    setNewPasswordInput("");
   }
 
   async function deleteAccount() {
@@ -336,21 +361,31 @@ export default function Account() {
               />
             </label>
             <label>
+              Current password
+              <input
+                type="password"
+                value={currentPasswordInput}
+                onChange={(e) => setCurrentPasswordInput(e.target.value)}
+                placeholder="Enter current password"
+                disabled={profileLoading || passwordLoading}
+              />
+            </label>
+            <label>
               New password
               <input
                 type="password"
-                value={passwordInput}
-                onChange={(e) => setPasswordInput(e.target.value)}
+                value={newPasswordInput}
+                onChange={(e) => setNewPasswordInput(e.target.value)}
                 placeholder="Update password"
-                disabled={profileLoading}
+                disabled={profileLoading || passwordLoading}
               />
             </label>
             <div className="profile-actions">
               <button className="primary-btn" onClick={saveProfile} disabled={profileLoading}>
                 {profileLoading ? "Saving..." : "Save changes"}
               </button>
-              <button className="primary-btn" onClick={updatePassword} disabled={profileLoading}>
-                Update password
+              <button className="primary-btn" onClick={updatePassword} disabled={profileLoading || passwordLoading}>
+                {passwordLoading ? "Updating..." : "Update password"}
               </button>
               <button className="primary-btn secondary" onClick={deleteAccount} disabled={profileLoading}>
                 Delete account

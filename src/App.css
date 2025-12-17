@@ -1,3 +1,10 @@
+/* Global layout helpers */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 /* Page background */
 .login-page {
   min-height: 100vh;
@@ -645,11 +652,18 @@ background: linear-gradient(90deg, rgba(255, 36, 39, 1) 0%, rgba(255, 48, 138, 1
   border: 1px solid #d4d4d8;
   background: #fafafa;
   font-size: 14px;
+  color: #0f172a;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .post-field textarea {
   resize: vertical;
+}
+
+.post-field input::placeholder,
+.post-field textarea::placeholder,
+.date-input::placeholder {
+  color: #9ca3af;
 }
 
 .post-field input:focus,
@@ -807,6 +821,7 @@ background: linear-gradient(90deg, rgba(255, 36, 39, 1) 0%, rgba(255, 48, 138, 1
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 16px;
+  align-items: start;
 }
 
 .account-card-shell {
@@ -815,6 +830,10 @@ background: linear-gradient(90deg, rgba(255, 36, 39, 1) 0%, rgba(255, 48, 138, 1
   border-radius: 14px;
   padding: 16px;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
 }
 
 .profile-form {
@@ -833,6 +852,7 @@ background: linear-gradient(90deg, rgba(255, 36, 39, 1) 0%, rgba(255, 48, 138, 1
 
 .profile-form input {
   width: 100%;
+  max-width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #d4d4d8;
